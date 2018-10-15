@@ -1,3 +1,14 @@
+/*
+ * Copy Large File (CLF) 主檔案
+ * 版本：v0.5_beta
+ *
+ * 編譯方式：  go build -o clf.out main.go string.go libs.go
+ * (Windows) go build -o clf.exe main.go string.go libs.go
+ * 如果是 Linux，則直接輸入 bash build.sh 即可。
+ *
+ * 語言：zh_TW。若要變更語系，請翻譯 string.go 中字串。
+ */
+
 package main
 import (
   "fmt"
@@ -6,8 +17,7 @@ import (
 )
 
 // 常數
-const programVer = "snapshot_20181015:1826(dev)"
-const giturl = "<url>"
+const ProgramVer = "v0.5_beta"
                    
 // process 為複製檔案的函式。
 func process(src string, dsc string, rec bool, ver bool) {
@@ -22,22 +32,28 @@ func process(src string, dsc string, rec bool, ver bool) {
   stat, _ := os.Stat(src)
   switch {
     case rec && stat.IsDir(): // 若有加上 -r 引數，且是個資料夾
-      fmt.Println("case 1 detected.")
+      err := CopyDirectory(src, dsc, ver)
+      if err != nil {
+        panic(err)
+      }
       break
     case !stat.IsDir(): // 若是個檔案
-      fmt.Println("case 2 detected.")
+      err := CopyFile(src, dsc, ver)
+      if err != nil {
+        panic(fmt.Sprintf("%v%s", err, Err_GitHubIT))
+      }
       break
     case !rec && stat.IsDir(): // 若是個資料夾，卻沒加上 -r 引數
-      panic(Err_FolderNotRecursive)
+      panic(Err_FolderNotRecursive + Err_GitHubIT)
       break
     default: // 此處未包括的狀況
-      panic(Err_unknownErrorWhenProcess)
+      panic(Err_unknownErrorWhenProcess + Err_GitHubIT)
   }
 }
 
 // usage 函式
 func usage() {
-  fmt.Printf(Usage, programVer, os.Args[0])
+  fmt.Printf(Usage, ProgramVer, os.Args[0])
   os.Exit(1)
 }
 
@@ -48,8 +64,10 @@ func main() {
   var verbose bool = false
 
   // 檢查語言檔版本
-  if Version != programVer {
-    panic(fmt.Sprintf(Err_LanguageFileVer, programVer, Version))
+  if StrVer != ProgramVer {
+    panic(fmt.Sprintf(Err_LanguageFileVer, ProgramVer, StrVer) + Err_GitHubIT)
+  } else if LibVer != ProgramVer {
+    panic(fmt.Sprintf(Err_LibFileVer, ProgramVer, LibVer) + Err_GitHubIT)
   }
   
   if len(os.Args) < 3 || len(os.Args) > 5 {
