@@ -25,6 +25,15 @@ user  0m0.209s
 sys  0m4.684s
 ```
 
+## 如何編譯
+```
+/*
+ * 編譯方式：  go build -o clf.out main.go string.go libs.go
+ * (Windows) go build -o clf.exe main.go string.go libs.go
+ * 如果是 Linux，則直接輸入 bash build.sh 即可。
+ */
+```
+
 ## 作者
 - pan93412 \<<https://github.com/pan93412>\>, 2018.
 - Yami Odymel (技術指導) \<<https://github.com/yamiodymel>\>, 2018.
