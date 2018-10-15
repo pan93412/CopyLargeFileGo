@@ -1,6 +1,6 @@
 /*
  * Copy Large File (CLF) 主檔案
- * 版本：v0.5_beta
+ * 版本：v0.6_beta
  *
  * 編譯方式：  go build -o clf.out main.go string.go libs.go
  * (Windows) go build -o clf.exe main.go string.go libs.go
@@ -13,19 +13,18 @@ package main
 import (
   "fmt"
   "os"
-  _ "runtime"
 )
 
-// 常數
-const ProgramVer = "v0.5_beta"
-                   
+// 程式版本
+const ProgramVer = "v0.6_beta"
+          
 // process 為複製檔案的函式。
 func process(src string, dsc string, rec bool, ver bool) {
   // 判斷 src 和 dsc
   if _, err := os.Stat(dsc); err == nil { // 若 dsc 存在
-    panic(Err_dscExists)
+    ErrorHandler(Err_dscExists)
   } else if _, err := os.Stat(src); os.IsNotExist(err) { // 若 src 不存在
-    panic(Err_srcNotExists)
+    ErrorHandler(Err_srcNotExists)
   }
   
   // 判斷引數
@@ -44,10 +43,10 @@ func process(src string, dsc string, rec bool, ver bool) {
       }
       break
     case !rec && stat.IsDir(): // 若是個資料夾，卻沒加上 -r 引數
-      panic(Err_FolderNotRecursive + Err_GitHubIT)
+      ErrorHandler(Err_FolderNotRecursive + Err_GitHubIT)
       break
     default: // 此處未包括的狀況
-      panic(Err_unknownErrorWhenProcess + Err_GitHubIT)
+      ErrorHandler(Err_unknownErrorWhenProcess + Err_GitHubIT)
   }
 }
 
@@ -65,9 +64,9 @@ func main() {
 
   // 檢查語言檔版本
   if StrVer != ProgramVer {
-    panic(fmt.Sprintf(Err_LanguageFileVer, ProgramVer, StrVer) + Err_GitHubIT)
+    ErrorHandler(fmt.Sprintf(Err_LanguageFileVer, ProgramVer, StrVer) + Err_GitHubIT)
   } else if LibVer != ProgramVer {
-    panic(fmt.Sprintf(Err_LibFileVer, ProgramVer, LibVer) + Err_GitHubIT)
+    ErrorHandler(fmt.Sprintf(Err_LibFileVer, ProgramVer, LibVer) + Err_GitHubIT)
   }
   
   if len(os.Args) < 3 || len(os.Args) > 5 {

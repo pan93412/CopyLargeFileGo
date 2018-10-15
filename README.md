@@ -3,7 +3,7 @@
 
 ## 命令列
 ```
-=! Copy Large File != 版本 v0.5_beta
+=! Copy Large File != 版本 v0.6_beta
 用法：(程式名稱) (原始檔案位置) (目標檔案位置) [-r] [-v]
 () 為必須、[] 為選用。
 

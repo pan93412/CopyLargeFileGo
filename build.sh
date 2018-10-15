@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Copy Large File (CLF) 編譯腳本
-# 與版本：snapshot_20181015:19##(testing) 同步釋出
+# 與版本：v0.6_beta 同步釋出
 #
 
 exePath="/usr/bin/go /bin/go"
+GITHUB_ISSUE="https://github.com/pan93412/CopyLargeFileGo/issues"
 
 goExists="0"
 for i in $exePath; do
@@ -20,7 +21,21 @@ if [[ $goExists == 0 ]]; then
   exit 1
 fi
 
+if [[ -e clf.out ]]; then
+  rm clf.out
+fi
+
+
 echo "[INFO] 開始編譯：Starting build."
 go build -o clf.out main.go string.go libs.go
-echo "[INFO] 編譯完成，檔案為 clf.out。"
-echo "[INFO] Build completed, the file is clf.out."
+
+if [[ -e clf.out ]]; then
+  echo "[INFO] 編譯完成，檔案為 clf.out。"
+  echo "[INFO] Build completed, the file is clf.out."
+else
+  echo "[ERR] 編譯可能失敗，請將錯誤訊息貼到 GitHub 上的 Issue 
+Tracker。"
+  echo "[ERR] The build probably failed, please paste the error message"
+  echo "[ERR] to Issue Tracker on GitHub."
+  echo "[ERR] URL: ${GITHUB_ISSUE}"
+fi
