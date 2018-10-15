@@ -3,15 +3,32 @@ import (
   "fmt"
   "os"
   "runtime"
+  "errors"
 )
 
 // 常數
-const programVer = "snapshot_20181015:0053(dev)"
+const programVer = "snapshot_20181015:1735(dev)"
 const giturl = "<url>"
 
 // process 為複製檔案的函式。
 func process(src string, dsc string, rec bool, ver bool) {
-  fmt.Printf(Err_NotSupport, runtime.GOOS, runtime.GOARCH, giturl)
+  // 判斷 src 和 dsc
+  if _, err := os.Stat(dsc); os.IsExists(err) {
+    panic err_dscExists
+  } else if _, err := os.Stat(src); os.IsNotExists(err) {
+    panic err_srcNotExists
+  }
+  
+  // 判斷引數
+  if rec && os.Stat(src).IsDir {
+    rec_folder(src, dsc, ver)
+  } else if !os.Stat(src).IsDir {
+    cp_file(src, dsc, ver)
+  } else if !rec && os.Stat(src).IsDir {
+    panic err_FolderNotRecursive
+  } else {
+    panic err_unknownErrorWhenProcess
+  }
 }
 
 // usage 函式
