@@ -2,32 +2,36 @@ package main
 import (
   "fmt"
   "os"
-  "runtime"
-  "errors"
+  _ "runtime"
 )
 
 // 常數
-const programVer = "snapshot_20181015:1735(dev)"
+const programVer = "snapshot_20181015:1826(dev)"
 const giturl = "<url>"
-
+                   
 // process 為複製檔案的函式。
 func process(src string, dsc string, rec bool, ver bool) {
   // 判斷 src 和 dsc
-  if _, err := os.Stat(dsc); os.IsExists(err) {
-    panic err_dscExists
-  } else if _, err := os.Stat(src); os.IsNotExists(err) {
-    panic err_srcNotExists
+  if _, err := os.Stat(dsc); err == nil { // 若 dsc 存在
+    panic(Err_dscExists)
+  } else if _, err := os.Stat(src); os.IsNotExist(err) { // 若 src 不存在
+    panic(Err_srcNotExists)
   }
   
   // 判斷引數
-  if rec && os.Stat(src).IsDir {
-    rec_folder(src, dsc, ver)
-  } else if !os.Stat(src).IsDir {
-    cp_file(src, dsc, ver)
-  } else if !rec && os.Stat(src).IsDir {
-    panic err_FolderNotRecursive
-  } else {
-    panic err_unknownErrorWhenProcess
+  stat, _ := os.Stat(src)
+  switch {
+    case rec && stat.IsDir(): // 若有加上 -r 引數，且是個資料夾
+      fmt.Println("case 1 detected.")
+      break
+    case !stat.IsDir(): // 若是個檔案
+      fmt.Println("case 2 detected.")
+      break
+    case !rec && stat.IsDir(): // 若是個資料夾，卻沒加上 -r 引數
+      panic(Err_FolderNotRecursive)
+      break
+    default: // 此處未包括的狀況
+      panic(Err_unknownErrorWhenProcess)
   }
 }
 
@@ -52,8 +56,10 @@ func main() {
     usage() // 顯示用法文字後退出程式
   } else {
     for _, args := range os.Args {
-      if args == "-r" { recursive = true } // 若使用者指定 -r 則開啟遞迴模式
-      if args == "-v" { verbose = true } // 若使用者指定 -v 則開啟詳細模式
+      switch args {
+        case "-r": recursive = true // 若使用者指定 -r 則開啟遞迴模式
+        case "-v": verbose = true // 若使用者指定 -v 則開啟詳細模式
+      }
     }
     process(os.Args[1], os.Args[2], recursive, verbose)
   }
