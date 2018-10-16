@@ -1,0 +1,12 @@
+{
+  "currentVersion": "v0.7_beta",
+  "releaseDate": "2018-10-16",
+  "updateLog": " - 此版本增加了更新程式，讓更新 CLF 更加方便與簡單。\n - 更新 README.md 與 build.sh\n - 版本號碼 + 0.1",
+  "fetchFiles": [
+    "build.sh",
+    "libs.go",
+    "main.go",
+    "string.go",
+    "version.go"
+  ]
+}

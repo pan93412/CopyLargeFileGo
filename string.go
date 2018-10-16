@@ -19,6 +19,12 @@ const Usage = `=! Copy Large File != 版本 %s
 此軟體 GitHub 網址：<http://www.github.com/pan93412/CopyLargeFileGo>
 `
 
+/* 
+ * libs.go 與 main.go 字串區
+ * 若能，請優先翻譯此區塊。
+ * 調用時機：當使用者開啟編譯後程式
+ */
+  
 // 若 string.go 之 Version 無效時。第一個 %s：主程式版本；第二個 %s：語言檔版本
 const Err_LanguageFileVer = "string.go 版本無效！此程式使用 %s 版，但字串檔案為 %s 版。"
 
@@ -51,3 +57,15 @@ const Info_CopiedFolder = "從 %s 資料夾複製到 %s 完成。\n"
 
 // 錯誤訊息的 prefix。
 const ErrPrefix = "錯誤："
+
+/*
+ * version.go 字串區
+ * 非重要區域。優先級第二。
+ * 調用時機：當使用者執行：(執行檔案) --check-stable / --check-devel
+ */
+
+// 通常這字串不應該出現，若出現請發 Issue 到 Issue Tracker
+const err_BranchInvaild = "所選取分支無效，請選擇正確分支。" + Err_GitHubIT
+
+// 若接收到的 HTTP Status Code 不是 200
+const err_HTTPSCErr = "URL 回傳代碼非 200，可能是因為分支網址錯誤、或是目標網站發生問題。" + Err_GitHubIT
