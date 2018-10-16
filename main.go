@@ -1,6 +1,6 @@
 /*
  * Copy Large File (CLF) 主檔案
- * 版本：v0.6_beta
+ * 版本：v0.7_beta
  *
  * 編譯方式：  go build -o clf.out main.go string.go libs.go
  * (Windows) go build -o clf.exe main.go string.go libs.go
@@ -16,7 +16,7 @@ import (
 )
 
 // 程式版本
-const ProgramVer = "v0.6_beta"
+const ProgramVer = "v0.7_beta"
           
 // process 為複製檔案的函式。
 func process(src string, dsc string, rec bool, ver bool) {
@@ -69,13 +69,15 @@ func main() {
     ErrorHandler(fmt.Sprintf(Err_LibFileVer, ProgramVer, LibVer) + Err_GitHubIT)
   }
   
-  if len(os.Args) < 3 || len(os.Args) > 5 {
+  if len(os.Args) < 2 || len(os.Args) > 5 {
     usage() // 顯示用法文字後退出程式
   } else {
     for _, args := range os.Args {
       switch args {
         case "-r": recursive = true // 若使用者指定 -r 則開啟遞迴模式
         case "-v": verbose = true // 若使用者指定 -v 則開啟詳細模式
+        case "--check-devel": Updater(ProgramVer, "devel"); os.Exit(0)
+        case "--check-stable": Updater(ProgramVer, "stable"); os.Exit(0)
       }
     }
     process(os.Args[1], os.Args[2], recursive, verbose)

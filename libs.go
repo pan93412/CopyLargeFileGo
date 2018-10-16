@@ -1,6 +1,6 @@
 /*
  * Copy Large File (CLF) 函式庫
- * 版本：v0.6_beta
+ * 版本：v0.7_beta
  */
 
 package main
@@ -12,7 +12,7 @@ import (
   "fmt"
 )
 
-const LibVer = "v0.6_beta"
+const LibVer = "v0.7_beta"
 
 // CopyFile 這個函式會將 src 檔案複製到 dst
 // ，若成功回傳 error=nil，失敗則回傳 error!=nil
@@ -53,4 +53,3 @@ func ErrorHandler(msg interface{}) {
   fmt.Printf("%s%v\n", ErrPrefix, msg)
   os.Exit(1)
 }
-

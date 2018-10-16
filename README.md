@@ -3,12 +3,14 @@
 
 ## 命令列
 ```
-=! Copy Large File != 版本 v0.6_beta
-用法：(程式名稱) (原始檔案位置) (目標檔案位置) [-r] [-v]
+=! Copy Large File != 版本 v0.7_beta
+用法：(程式名稱) (來源檔案位置) (目標檔案位置) [-r] [-v] [--check-{devel|stable}]
 () 為必須、[] 為選用。
 
 [-r] (可選)：遞迴複製模式 (若原始檔案位置為 目錄，則必須)
 [-v] (可選)：詳細輸出模式
+[--check-devel] (可選)：檢查 devel 分支上的更新
+[--check-stable] (可選)：檢查 master 分支上的更新
 
 此軟體 GitHub 網址：<http://www.github.com/pan93412/CopyLargeFileGo>
 ```
