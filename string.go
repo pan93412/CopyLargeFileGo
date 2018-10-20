@@ -1,12 +1,12 @@
 /*
  * Copy Large File (CLF) 字串檔案
- * 版本：v0.7.0_beta
+ * 版本：v0.7.0-beta
  */
  
 package main
 
 // 請勿修改此處。
-const StrVer = "v0.7.0_beta"
+const StrVer = "v0.7.0-beta"
 
 // 第一個 %s：主程式版本；第二個 %s：程式檔名
 const Usage = `=! Copy Large File != 版本 %s

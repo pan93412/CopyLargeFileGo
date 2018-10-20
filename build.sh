@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copy Large File (CLF) 編譯腳本
-# 與版本：v0.7.0_beta 同步釋出
+# 與版本：v0.7.0-beta 同步釋出
 #
 
 exePath="/usr/bin/go /bin/go"

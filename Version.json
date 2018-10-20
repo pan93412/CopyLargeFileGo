@@ -1,5 +1,5 @@
 {
-  "currentVersion": "v0.7.0_beta",
+  "currentVersion": "v0.7.0-beta",
   "releaseDate": "2018-10-16",
   "updateLog": " - 此版本增加了更新程式，讓更新 CLF 更加方便與簡單。\n - 更新 README.md 與 build.sh\n - 版本號碼 + 0.1.0\n - 語意版本化：https://semver.org/lang/zh-TW/"
 }
