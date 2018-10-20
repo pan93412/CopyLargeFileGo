@@ -1,6 +1,6 @@
 /*
  * Copy Large File (CLF) 更新軟體
- * 版本：v0.7.0-beta (不跟隨 main.go 更新)
+ * 版本：v0.7.1-beta (不跟隨 main.go 更新)
  *
  * 編譯方式：  go build -o clf.out main.go string.go libs.go
  * (Windows) go build -o clf.exe main.go string.go libs.go
@@ -21,12 +21,18 @@ import (
   "runtime"
 )
 
-// 相關常數定義
-const updStable = "https://raw.githubusercontent.com/pan93412/CopyLargeFileGo/master/" // GitHub 版本庫：master 分支上 raw 網址，尾端必須加 /
-const updDevel = "https://raw.githubusercontent.com/pan93412/CopyLargeFileGo/devel/" // GitHub 版本庫：devel 分支上 raw 網址，尾端必須加 /
+// 定義連結
+// GitHub 版本庫：master 分支上 raw 網址，尾端必須加 /
+const updStable = "https://raw.githubusercontent.com/pan93412/CopyLargeFileGo/master/"
+// GitHub 版本庫：devel 分支上 raw 網址，尾端必須加 /
+const updDevel = "https://raw.githubusercontent.com/pan93412/CopyLargeFileGo/devel/" 
+// 下載 Releases 的網址。第一個 %s 預計放 release 版本、第二個預計放檔案名稱
+const releaseDown = "https://github.com/pan93412/CopyLargeFileGo/releases/download/%s/%s" 
+// 下載 .zip 原始碼檔的網址。第一個 %s 預計放 release 版本 
+const archiveDown = "https://github.com/pan93412/CopyLargeFileGo/archive/%s.zip" 
+
+// 定義相關檔案
 const versionJSON = "Version.json" // 版本資訊 JSON 檔名
-const releaseDown = "https://github.com/pan93412/CopyLargeFileGo/releases/download/%s/%s" // 下載 Releases 的網址。第一個 %s 預計放 release 版本、第二個預計放檔案名稱
-const archiveDown = "https://github.com/pan93412/CopyLargeFileGo/archive/%s.zip" // 下載 .zip 原始碼檔的網址。第一個 %s 預計放 release 版本 
 const userAgent = `Mozilla/5.0 (X11; Linux x86_64; rv:62.0) Gecko/20100101 Firefox/62.0`
 var releaseDown_filename = map[string]string{
   "linux-386": "clf-linux-386.out",          // Linux (i386)
@@ -38,7 +44,6 @@ var releaseDown_filename = map[string]string{
   "darwin-amd64": "clf-darwin-amd64.out",    // Darwin (macOS) (amd64)
 }
 
-// System 是用來擺放各發行版的
 // VersionInfo 為 Version.json 的內容建構體
 type VersionInfo struct {
   NowVer string   `json:"currentVersion"` // 目前版本
@@ -46,7 +51,7 @@ type VersionInfo struct {
   UpdLog string   `json:"updateLog"`      // 更新日誌
 }
 
-// download 模組可以從遠端伺服器下載 URL 檔案。
+// downloadFile 模組可以從遠端伺服器下載 URL 檔案。
 // []byte: 下載到的檔案資料
 // error: 下載時發生的錯誤
 func downloadFile(theURL string) ([]byte, error) {
@@ -117,41 +122,69 @@ func Updater(currentVer string, branch string) error {
       ErrorHandler(err_BranchInvaild)
   }
 
+  // 使用 checkUpdates 檢查更新
   err, updMsg, needUpdate, verInf = checkUpdates(currentVer, branch, fetchWhere)
   if err != nil { panic(err) }
+  // 顯示 checkUpdates 傳回的更新確認訊息
   fmt.Println(updMsg)
+  
+  // 如果需要更新
   if needUpdate == true {
-    fmt.Scanln(&scanStr)
+    fmt.Scanln(&scanStr) // 等待使用者按下 [Enter]
     for id, version := range releaseDown_filename {
       if id == runtime.GOOS + "-" + runtime.GOARCH {
-        downWhat = version
+        downWhat = version // 如果支援目前所使用的系統
       }
     }
+    
+    // 如果支援目前所使用的系統 (downWhat 不是空白)
     if downWhat != "" {
-      fmt.Printf(supportYourComputer, runtime.GOOS, runtime.GOARCH)
-      file, err = downloadFile(fmt.Sprintf(releaseDown, verInf.NowVer, downWhat))
+      // 建立一預計檔案名稱，為「(執行檔案名稱).new」
       filename := os.Args[0] + ".new"
+
+      // 顯示「支援目前所使用的系統」
+      fmt.Printf(supportYourComputer, runtime.GOOS, runtime.GOARCH)
+      
+      // 調用下載檔案函數，連結請參閱 -> const releaseDown = ...
+      file, err = downloadFile(fmt.Sprintf(releaseDown, verInf.NowVer, downWhat))
+
+      // 如預計檔案名稱存在，則移除該檔案
       if _, err := os.Stat(filename); err == nil {
           os.Remove(filename)
-        }
-      clf_cachedat, _ := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0755)
-      clf_cachedat.Write(file)
-      clf_cachedat.Close()
+      }
+      
+      // 開始寫入 downloadFile() 得到的結果
+      clfCache, _ := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0755)
+      clfCache.Write(file); defer clfCache.Close()
+      
+      // 刪除原執行檔案
       os.Remove("./" + os.Args[0])
+      // 將 (執行檔案名稱).new 改成原執行檔案名稱
       os.Rename("./" + os.Args[0] + ".new", "./" + os.Args[0])
-      os.Exit(0)
+      return nil
+      
     } else {
+      // 建立一預計檔案名稱，為 (新版本號碼).zip
       theFilename := verInf.NowVer + ".zip"
+
+      // 顯示「不支援您的電腦系統，請自行編譯」
       fmt.Printf(notSupportYourComputer, runtime.GOOS, runtime.GOARCH, theFilename)
+      
+      // 調用下載檔案函數，連結請參閱 -> const archiveDown = ...
+      file, err = downloadFile(fmt.Sprintf(archiveDown, verInf.NowVer))
+
+      // 如預計檔案名稱存在，則移除該檔案
       if _, err := os.Stat(theFilename); err == nil {
         os.Remove(theFilename)
       }
-      file, err = downloadFile(fmt.Sprintf(archiveDown, verInf.NowVer))
-      clf_archive, _ := os.OpenFile(theFilename, os.O_WRONLY|os.O_CREATE, 0755)
-      clf_archive.Write(file)
-      clf_archive.Close()
-      os.Exit(0)
+      
+      // 開始寫入 downloadFile() 得到的結果
+      clfCache, _ := os.OpenFile(theFilename, os.O_WRONLY|os.O_CREATE, 0755)
+      clfCache.Write(file)
+      clfCache.Close()
+      return nil
     }
   }
+  // 如果沒有更新，則什麼也不做。
   return nil
 }

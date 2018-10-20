@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copy Large File (CLF) 編譯腳本
-# 與版本：v0.7.0-beta 同步釋出
+# 與版本：v0.7.1-beta 同步釋出
 #
 
 exePath="/usr/bin/go /bin/go"
@@ -67,8 +67,8 @@ echo "[INFO] 開始編譯：Starting build."
 go build -o build/clf.out *.go
 
 if [[ -e build/clf.out ]]; then
-  echo "[INFO] 編譯完成，檔案為 clf.out。"
-  echo "[INFO] Build completed, the file is clf.out."
+  echo "[INFO] 編譯完成，檔案為 build/clf.out。"
+  echo "[INFO] Build completed, the file is build/clf.out."
 else
   echo "[ERR] 編譯可能失敗，請將錯誤訊息貼到 GitHub 上的 Issue 
 Tracker。"

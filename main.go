@@ -1,12 +1,14 @@
 /*
  * Copy Large File (CLF) 主檔案
- * 版本：v0.7.0-beta
+ * 版本：v0.7.1-beta
  *
  * 編譯方式：  go build -o clf.out main.go string.go libs.go
  * (Windows) go build -o clf.exe main.go string.go libs.go
  * 如果是 Linux，則直接輸入 bash build.sh 即可。
+ * 若要在 Linux 環境編譯全平台，請輸入 bash build.sh --all
  *
- * 語言：zh_TW。若要變更語系，請翻譯 string.go 中字串。
+ * 語言：zh_TW。若要翻譯字串至您的語言，
+ * 請翻譯 string.go 中字串。
  */
 
 package main
@@ -16,7 +18,7 @@ import (
 )
 
 // 程式版本
-const ProgramVer = "v0.7.0-beta"
+const ProgramVer = "v0.7.1-beta"
           
 // process 為複製檔案的函式。
 func process(src string, dsc string, rec bool, ver bool) {
