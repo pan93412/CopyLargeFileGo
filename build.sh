@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copy Large File (CLF) 編譯腳本
-# 與版本：v0.7_beta 同步釋出
+# 與版本：v0.7.0_beta 同步釋出
 #
 
 exePath="/usr/bin/go /bin/go"
@@ -14,7 +14,7 @@ for i in $exePath; do
 done
 
 if [[ $goExists == 0 ]]; then 
-  echo "請安裝 go (>= 1.10) 版本後再繼續編譯。"
+  echo "請安裝 go (>= 1.10.0) 版本後再繼續編譯。"
   echo "感謝！"
   echo -e "\nPlease build it after installed go (version >= 
 1.10)!\nThanks too much!"
