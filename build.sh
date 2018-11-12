@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Copy Large File (CLF) 編譯腳本
-# 與版本：v0.7.1-beta 同步釋出
-#
+# 與版本：v0.7.2-beta 同步釋出
 
 exePath="/usr/bin/go /bin/go"
 GITHUB_ISSUE="https://github.com/pan93412/CopyLargeFileGo/issues"
@@ -33,7 +32,7 @@ mkdir "build"
 if [[ $1 == "--all" ]]; then
   echo "[INFO] 開始編譯：Starting build."
   GOOS=darwin GOARCH=amd64 go build -o build/clf-darwin-amd64.out *.go
-  echo "[INFO] darwin amd64 編譯完成 Build Completed"
+  echo "[INFO] darwin amd64 編譯完成 Build Completed，檔案為 build/clf-darwin-amd64.out"
   SYSTEM="freebsd linux windows"
 
   ARCH="amd64"
@@ -45,7 +44,7 @@ if [[ $1 == "--all" ]]; then
     fi
     filename="clf-$i-$ARCH$filext"
     GOOS=$i GOARCH=amd64 go build -o build/$filename *.go
-    echo "[INFO] $i $ARCH 編譯完成 Build Completed"
+    echo "[INFO] $i $ARCH 編譯完成 Build Completed，檔案為 build/$filename"
   done
 
   ARCH="386"
@@ -57,7 +56,7 @@ if [[ $1 == "--all" ]]; then
     fi
     filename="clf-$i-$ARCH$filext"
     GOOS=$i GOARCH=$ARCH go build -o build/$filename *.go
-    echo "[INFO] $i $ARCH 編譯完成 Build Completed"
+    echo"[INFO] $i $ARCH 編譯完成 Build Completed，檔案為 build/$filename"
   done
   exit 0
 fi
