@@ -3,16 +3,20 @@
 
 ## 命令列
 ```
-=! Copy Large File != 版本 v0.7.1-beta
-用法：(程式名稱) (來源檔案位置) (目標檔案位置) [-r] [-v] [--check-{devel|stable}]
+=! Copy Large File != 版本 v0.7.4
+用法：(執行檔名稱) (原始檔案位置) (目標檔案位置) [-r] [-v] [--check-{devel|stable}]
 () 為必須、[] 為選用。
 
-[-r] (可選)：遞迴複製模式 (若原始檔案位置為 目錄，則必須)
+[-r] (可選)：遞迴複製模式 (若 (原始檔案位置) 為 目錄，則必須)
 [-v] (可選)：詳細輸出模式
 [--check-devel] (可選)：檢查 devel 分支上的更新
 [--check-stable] (可選)：檢查 master 分支上的更新
 
+貢獻者名單：
+pan93412 <http://www.github.com/pan93412> (軟體主作者), 2018.
+
 此軟體 GitHub 網址：<http://www.github.com/pan93412/CopyLargeFileGo>
+
 ```
 
 ## 速度
@@ -30,9 +34,10 @@ sys  0m4.684s
 ## 如何編譯
 ```
 /*
- * 編譯方式：  go build -o clf.out main.go string.go libs.go
- * (Windows) go build -o clf.exe main.go string.go libs.go
+ * 編譯方式：  go build -o clf.exe *.go
+ * (Windows) go build -o clf.exe *.go
  * 如果是 Linux，則直接輸入 bash build.sh 即可。
+ * 若要在 Linux 環境編譯全平台，請輸入 bash build.sh --all
  */
 ```
 
