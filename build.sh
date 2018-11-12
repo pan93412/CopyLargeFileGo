@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copy Large File (CLF) 編譯腳本
-# 與版本：v0.7.2-beta 同步釋出
+# 與版本：v0.7.4 同步釋出
 
 exePath="/usr/bin/go /bin/go"
 GITHUB_ISSUE="https://github.com/pan93412/CopyLargeFileGo/issues"
@@ -56,7 +56,8 @@ if [[ $1 == "--all" ]]; then
     fi
     filename="clf-$i-$ARCH$filext"
     GOOS=$i GOARCH=$ARCH go build -o build/$filename *.go
-    echo"[INFO] $i $ARCH 編譯完成 Build Completed，檔案為 build/$filename"
+    echo "[INFO] $i $ARCH 編譯完成 Build Completed，檔案為 
+build/$filename"
   done
   exit 0
 fi
