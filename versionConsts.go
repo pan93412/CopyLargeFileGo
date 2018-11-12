@@ -1,6 +1,6 @@
 /*
  * Copy Large File (CLF) 更新軟體相關變數
- * 版本：v0.7.3 (不跟隨 main.go 更新)
+ * 版本：v0.7.4 (不跟隨 main.go 更新)
  *
  * 編譯方式：  go build -o clf.out *.go
  * (Windows) go build -o clf.exe *.go

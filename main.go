@@ -1,6 +1,6 @@
 /*
  * Copy Large File (CLF) 主檔案
- * 版本：v0.7.3
+ * 版本：v0.7.4
  *
  * 編譯方式：  go build -o clf.exe *.go
  * (Windows) go build -o clf.exe *.go
@@ -19,7 +19,7 @@ import (
 )
 
 // 程式版本
-const ProgramVer = "v0.7.3"
+const ProgramVer = "v0.7.4"
 
 // 貢獻者
 const Contributors = `pan93412 <http://www.github.com/pan93412> (軟體主作者), 2018.` + "\n"

@@ -1,6 +1,6 @@
 /*
  * Copy Large File (CLF) 函式庫
- * 版本：v0.7.3
+ * 版本：v0.7.4
  */
 
 package main
@@ -13,7 +13,7 @@ import (
   "os"        // 開啟檔案用
 )
 
-const LibVer = "v0.7.3"
+const LibVer = "v0.7.4"
 
 // CopyFile 這個函式會將 src 檔案複製到 dst
 // ，若成功回傳 error=nil，失敗則回傳 error!=nil

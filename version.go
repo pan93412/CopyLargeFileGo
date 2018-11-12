@@ -1,6 +1,6 @@
 /*
  * Copy Large File (CLF) 更新軟體
- * 版本：v0.7.3 (不跟隨 main.go 更新)
+ * 版本：v0.7.4 (不跟隨 main.go 更新)
  *
  * 編譯方式：  go build -o clf.exe *.go
  * (Windows) go build -o clf.exe *.go
@@ -173,5 +173,6 @@ func Updater(currentVer string, branch string) error {
     return nil
   }
   // 如果沒有更新，則什麼也不做。
+  fmt.Printf(nowVersionLatest, ProgramVer)
   return nil
 }

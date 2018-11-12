@@ -1,5 +1,5 @@
 {
-  "currentVersion": "v0.7.3",
+  "currentVersion": "v0.7.4",
   "releaseDate": "2018-11-12",
-  "updateLog": " - 整理程式碼、最佳化更新軟體程式碼與其他修正\n"
+  "updateLog": " - 整理程式碼、最佳化更新軟體程式碼與其他修正 (v0.7.3)\n - 修正 version.go 的小臭蟲…"
 }
