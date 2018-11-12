@@ -1,6 +1,6 @@
 /*
  * Copy Large File (CLF) 更新軟體
- * 版本：v0.7.2-beta (不跟隨 main.go 更新)
+ * 版本：v0.7.3 (不跟隨 main.go 更新)
  *
  * 編譯方式：  go build -o clf.exe *.go
  * (Windows) go build -o clf.exe *.go
@@ -102,7 +102,7 @@ func checkUpdates(currentVer string, branch string, fetchWhere string) (error, b
 // 種類並下載對應二進位檔案
 func Updater(currentVer string, branch string) error {
   // 初始化變數
-  var fetchWhere, updMsg, scanStr, downWhat string
+  var fetchWhere, scanStr string
   var err error
   var needUpdate bool
   var file []byte
@@ -127,7 +127,7 @@ func Updater(currentVer string, branch string) error {
   // 如果需要更新
   if needUpdate {
     // 顯示需要更新訊息
-    fmt.Sprintf(updReceived, verInf.NowVer, currentVer, verInf.RelDat, verInf.UpdLog, branch)
+    fmt.Printf(updReceived, verInf.NowVer, currentVer, verInf.RelDat, verInf.UpdLog, branch)
     fmt.Scanln(&scanStr) // 等待使用者按下 [Enter]
 
     // 判斷系統
@@ -151,7 +151,6 @@ func Updater(currentVer string, branch string) error {
       os.Remove("./" + os.Args[0])
       // 將 (執行檔案名稱).new 改成原執行檔案名稱
       os.Rename("./"+os.Args[0]+".new", "./"+os.Args[0])
-      return nil
     } else {
       theFilename := verInf.NowVer + ".zip" // 預計檔案名稱為 (新版本號碼).zip
       // 顯示「不支援您的電腦系統，請自行編譯」
@@ -169,9 +168,9 @@ func Updater(currentVer string, branch string) error {
       cache, _ := os.OpenFile(theFilename, os.O_WRONLY|os.O_CREATE, 0755)
       cache.Write(file)
       cache.Close()
-      return nil
     }
     fmt.Println(downloadDone)
+    return nil
   }
   // 如果沒有更新，則什麼也不做。
   return nil
